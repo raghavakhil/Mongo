@@ -1,0 +1,101 @@
+use CgProductDB//1.1
+
+db.createCollection("ProductCollection");//1.2
+
+db.ProductCollection.insert([{ _id:1,item:"Laptop",prodCat :"Electronics",price:30000.0,quantity: 2,orderInfo:{_id:"O001",orderdate: ISODate("2014-01-01"),address:{street:"66,Airoli",city:"Mumbai",state:"MS",zipcode:700987,coords: [ -73.856077, 40.848447 ]},email:"capgemini@capgemini.com",mobiles:[8888108810]}}])
+
+db.ProductCollection.insert([{ _id:2,item:"Mobile",prodCat :"Electronics",price:1500000.0,quantity: 10,orderInfo:{"_id":"O002","orderdate" : ISODate("2010-03-12"),address:{street:"FC Road",city:"Pune",state:"MS",zipcode:40081,coords: [ -23.80007, 30.1123456 ]},email:"icres@ibm.com",mobiles:[9856342189]}}])
+
+db.ProductCollection.insert([{ _id:3,item:"TV",prodCat :"Electronics",price:24000.0,quantity: 10,orderInfo:{"_id":"O003","orderdate" : ISODate("2012-06-17"),address:{street:"GT Road",city:"Sahibabad",state:"UP",zipcode:567777,coords: [ -11.80007, 13.1123456 ]},email:"techm@techm.com",mobiles:[7865452222]}}])
+
+db.ProductCollection.insert([{ _id:4,item:"Laptop",prodCat :"Electronics",price:30000.0,quantity: 2,orderInfo:{_id:"O004",orderdate: ISODate("2014-01-01"),address:{street:"66,Airoli",city:"Mumbai",state:"MS",zipcode:700987,coords: [ -73.856077, 40.848447 ]},email:"capgemini@capgemini.com",mobiles:[8888108810]}}])
+
+db.ProductCollection.insert([{ _id:12,item:"Locket",prodCat :"Jewellery",price:1000000.0,quantity: 5,orderInfo:{_id:"O012",orderdate: ISODate("2018-09-02"),address:{street:"92,Moulali",city:"Hyderabad",state:"TS",zipcode:509673,coords: [ -234.856077, 132.848447 ]},email:"uber@uber.com",mobiles:[7030237564]}}])
+
+
+db.ProductCollection.find();//1.3
+
+db.ProductCollection.insert([{ _id:5,item:"Jeans",prodCat :"Clothing",price:540.0,quantity: 15,orderInfo:{"_id":"O005","orderdate" : ISODate("2010-09-31"),address:{street:"KPHB",city:"Hyderabad",state:"TS",zipcode:500001,coords: [ -29.64646, 84.5352 ]},email:"ibm@ibm.com",mobiles:[7045644564]}}])
+
+db.ProductCollection.insert([{ _id:6,item:"Pen",prodCat :"Stationary",price:95.0,quantity: 20,orderInfo:{"_id":"O006","orderdate" : ISODate("1996-06-29"),address:{street:"Vikroli",city:"Mumbai",state:"Maharashtra",zipcode:575734,coords: [ -86.13345, 76.5345 ]},email:"tcs@tcs.com",mobiles:[8484649568]}}])
+
+db.ProductCollection.remove({"_id":10});
+
+db.ProductCollection.insert([{ _id:7,item:"Shirts",prodCat :"Clothing",price:200.0,quantity: 150,orderInfo:{"_id":"O007","orderdate" : ISODate("2015-05-24"),address:{street:"Uppal",city:"Hyderabad",state:"TS",zipcode:500005,coords: [ -42.64646, 21.5352 ]},email:"vedaa.com",mobiles:[907895643]}}])
+
+db.ProductCollection.insert([{ _id:8,item:"Books",prodCat :"Stationary",price:50.0,quantity: 200,orderInfo:{"_id":"O008","orderdate" : ISODate("2017-12-26"),address:{street:"KT Road",city:"Tirupati",state:"AP",zipcode:579854,coords: [ -64.13345, 232.5345 ]},email:"virtuoso@virtuoso.com",mobiles:[55165165757]}}])
+
+db.ProductCollection.find({_id:5});//1.4
+
+db.ProductCollection.find({},{"orderInfo.address.coords":0,"orderInfo.email":0})//1.5
+
+db.ProductCollection.update({_id:3},{$push:{"orderstatus":"pending"}})//1.6
+
+db.ProductCollection.update({"item":"Laptop"},{$set:{price:5000}},{multi:true});//1.7
+
+db.ProductCollection.update({"item":"Laptop"},{$inc:{price:5000}});//1.8
+
+db.ProductCollection.update({_id:2},{$push:{"orderInfo.mobiles":9010430360}});//1.9
+
+db.ProductCollection.insert([{_id:9,item:"CD",prodCat:"Electronics",price:40.00}]);//1.10
+
+db.ProductCollection.updateMany({},{$rename:{"item":"productName"}})//1.11
+
+db.ProductCollection.remove({_id:4})//1.12
+
+db.ProductCollection.remove({productName:/C/});//1.13
+
+db.ProductCollection.find({$or:[{prodCat:"Electronics"},{productName:"TV"}]})//1.14
+
+db.ProductCollection.insert([{ _id:10,item:"Laptop",prodCat :"Electronics",price:4100000.0,}])
+
+db.ProductCollection.find({price:{$gt:40000}})//1.15
+
+db.ProductCollection.find({price:{$gt:40000}},{"productName":1,"prodCat":1,"price":1})//1.16
+
+db.ProductCollection.find({price:{$gt:40000}},{"productName":1,"prodCat":1,"price":1}).limit(3)//1.17
+
+db.ProductCollection.find({"orderInfo.address.state":"MS"})//1.18
+
+db.ProductCollection.find().sort({price:-1})//1.19
+
+db.ProductCollection.find().sort({prodCat:1})//1.20
+
+db.ProductCollection.find().limit(3)//1.21
+
+db.ProductCollection.find().forEach(function(res){print("Product Name: "+res.productName+"Product Category: "+res.prodCat+"Product Price: "+res.price+"Order Date: "+res.orderInfo.orderdate+"Order State: "+res.orderInfo.address.state)}).pretty();//1.22
+
+db.ProductCollection.find({"orderInfo.address.state":{$in:["MS","UP"]}})//1.23
+
+db.ProductCollection.insert([{ _id:11,item:"Laptop",prodCat :"Electronics",price:30000.0,quantity: 2,orderInfo:{_id:"O011",orderdate: ISODate("2014-01-01"),address:{street:"66,Airoli",city:"Mumbai",state:"MS",zipcode:700987,coords: [ -73.856077, 40.848447 ]},email:"capgemini@capgemini.com",mobiles:[8888108810]}}])
+
+db.ProductCollection.find({$and:[{price:{$gt:40000}},{"orderInfo.address.state":"MS"}]})//1.24
+
+db.ProductCollection.find({$and:[{prodCat:"Electronics"},{"orderInfo.address.city":"Pune"}]})//1.25
+
+var cursorCat=db.ProductCollection.find().sort({prodCat:1});
+
+cursorCat.forEach(function(disp) {print("Product Name: "+disp.productName+"Product Category: "+disp.prodCat+"state:"+disp.orderInfo.address.state)})//1.26
+
+
+db.ProductCollection.find();
+
+db.ProductCollection.aggregate([{$match:{prodCat:"Electronics"}}]);//2.1
+
+db.ProductCollection.aggregate([{$group:{_id:"$prodCat",catCount:{$sum:1}}}]);//2.2
+
+db.ProductCollection.aggregate([{$match:{prodCat:"Jewellery"}},{$group:{_id:"$prodCat",co:{$sum:1}}}]);//2.3
+
+db.ProductCollection.aggregate([{$group:{_id:"$prodCat",averageAmount:{ $avg: { $multiply:["$price","$quantity"]}},averageQuantity:{$avg:"$quantity"}}}]);//2.4
+
+db.ProductCollection.aggregate([{$project:{productName:1,prodCat:1,price:1,qGreater:{$gt:["$quantity",30]},_id:0}},{$match:{qGreater:true}}])//2.5
+
+db.ProductCollection.aggregate([{$limit:3},{$sort:{quantity:1}}])//2.6
+
+db.ProductCollection.aggregate([{$group:{_id:"$prodCat",totalSales:{$sum:{$multiply:["$price","$quantity"]}}}}])//2.7
+
+db.ProductCollection.aggregate([{$group:{_id:"prodName",popSell:{$max:"$quantity"}}}])//2.8
+
+db.ProductCollection.aggregate([{$project:{_id:1,productName:1,preYear:{$year:"$orderInfo.orderdate"}}},{$match:{preYear:2010}}])//2.9
+
+db.ProductCollection.aggregate([{$group:{_id:"prodCat",display:{$push:{productname:"$productName",productprice:"$price"}}}}])//2.10
